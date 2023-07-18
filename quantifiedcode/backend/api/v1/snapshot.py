@@ -164,14 +164,6 @@ class SnapshotFileRevisionIssues(Resource, FileRevisionIssueListMixin):
         #we process the results
         results = self.process_file_revisions(request.project, rows)
 
-        valid=1
-
-        if not valid:
-           newresults = []
-           for val in results:
-               val["path"] = "Please upgrade to PRO"
-               newresults.append(val)
-           results = newresults
 
         newresults = []
         for val in results:

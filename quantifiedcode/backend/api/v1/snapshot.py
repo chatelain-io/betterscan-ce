@@ -164,16 +164,7 @@ class SnapshotFileRevisionIssues(Resource, FileRevisionIssueListMixin):
         #we process the results
         results = self.process_file_revisions(request.project, rows)
 
-         
-        try:
-          r = requests.get("https://dl.betterscan.io/auth?licence="+os.getenv('LIC'))
-          if(r.content.decode("utf-8")=="OK"):
-            valid=1
-          else:
-            valid=0
-        except:
-          valid=0
-          pass
+        valid=1
 
         if not valid:
            newresults = []
@@ -186,7 +177,7 @@ class SnapshotFileRevisionIssues(Resource, FileRevisionIssueListMixin):
         for val in results:
           val.update({"language": "all"})
           newresults.append(val)
-          
+
         for val in newresults:
             for val1 in val["issues"]:
                 if(val1["analyzer"]=="bandit"):
@@ -252,8 +243,8 @@ class SnapshotFileRevisionIssues(Resource, FileRevisionIssueListMixin):
                 if(val1["analyzer"]=="semgrepcsharpdotnet"):
                     val.update({"language": "csharp"})
 
-                 
-                 
+
+
         results = newresults
 
         return {'file_revisions': results,
@@ -302,7 +293,7 @@ class SnapshotIssuesSummary(Resource):
     @valid_project(public_ok=True)
     @valid_snapshot(only=('pk',),include=('project',),raw=False)
     def get(self, project_id, snapshot_id):
-    
+
         form = SnapshotIssuesSummaryForm(request.args)
 
         if not form.validate():
@@ -403,7 +394,7 @@ class SnapshotIssuesSummary(Resource):
         #out=out[1:]
         #out=","+out
 
-        
+
         out=out.replace("'","\"")
         json2 = json.loads(out)
         for key, value in json2.items():
@@ -437,7 +428,7 @@ class SnapshotIssuesSummary(Resource):
 
 
 
-          
+
 
 
 class SnapshotDetails(Resource):
